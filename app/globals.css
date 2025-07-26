@@ -24,3 +24,37 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@theme {
+  --color-text-primary: #2f3b43;
+  --color-text-secondary: #5b6266;
+  --color-border-primary: #9da6ad;
+  --color-border-secondary: #ced9e1;
+
+  --color-bg-primary: #f5f9ff;
+}
+
+select,
+::picker(select) {
+  appearance: base-select;
+  color: var(--color-text-secondary);
+  transition: 0.4s rotate;
+}
+
+::picker-icon {
+  color: var(--color-text-primary);
+}
+
+option {
+  padding: 0.5rem 1rem;
+}
+
+option:checked,
+option:hover {
+  background-color: var(--color-bg-primary);
+  transition: 0.4s;
+}
+
+option::checkmark {
+  display: none;
+}
