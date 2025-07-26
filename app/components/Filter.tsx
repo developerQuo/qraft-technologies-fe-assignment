@@ -4,7 +4,7 @@ import ExchangeSelector from "./selector/ExchangeSelector";
 
 export default function Filter() {
   return (
-    <div className="flex justify-between items-center py-0.5">
+    <div className="flex justify-between items-center py-0.5 bg-white rounded-[3px]">
       <ExchangeSelector />
       <KeywordInput />
       <DateRange />

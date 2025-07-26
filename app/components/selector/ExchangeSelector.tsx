@@ -25,7 +25,7 @@ export default function ExchangeSelector() {
           <option
             key={option.value}
             value={option.value}
-            className="text-text-secondary"
+            className="text-input"
           >
             {option.name}
           </option>

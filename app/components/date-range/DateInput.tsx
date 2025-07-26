@@ -24,7 +24,7 @@ export default function DateInput({ value, onChange, id, max }: InputProps) {
       onChange={onDateChange}
       className={clsx(
         "border-border-primary border-[0.5px] rounded-sm w-[132px] h-8 p-2 shadow",
-        "font-medium text-xs"
+        "font-medium text-xs text-input"
       )}
       style={{
         colorScheme: "light",
