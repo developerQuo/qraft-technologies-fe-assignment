@@ -1,25 +1,36 @@
 "use client";
 
+import clsx from "clsx";
+import LabelWrapper from "../LabelWrapper";
 import { exchangeOptions } from "./data";
-import Selector from "./Selector";
 import { useFilterStore } from "@/stores/filter-store";
+import { Exchange } from "@/enums/exchange";
 
 export default function ExchangeSelector() {
   const exchange = useFilterStore((state) => state.exchange);
   const setExchange = useFilterStore((state) => state.setExchange);
   return (
-    <div className="flex gap-3 py-1 px-3 items-center ">
-      <label
-        htmlFor="exchange"
-        className="text-text-primary font-semibold text-[15px]"
-      >
-        거래소
-      </label>
-      <Selector
-        options={exchangeOptions}
+    <LabelWrapper label="거래소" htmlFor="exchange">
+      <select
+        className={clsx(
+          "border-border-primary border-[0.5px] rounded-sm w-[100px] h-8 p-2 shadow",
+          "font-medium text-xs"
+        )}
+        id="exchange"
+        name="exchange"
         value={exchange}
-        onChange={setExchange}
-      />
-    </div>
+        onChange={(e) => setExchange(e.target.value as Exchange)}
+      >
+        {exchangeOptions.map((option) => (
+          <option
+            key={option.value}
+            value={option.value}
+            className="text-text-secondary"
+          >
+            {option.name}
+          </option>
+        ))}
+      </select>
+    </LabelWrapper>
   );
 }
