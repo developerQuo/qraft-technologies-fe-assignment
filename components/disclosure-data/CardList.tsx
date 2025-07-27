@@ -6,6 +6,7 @@ import clsx from "clsx";
 import useQueryDisclosureData from "@/hooks/useQueryDisclosureData";
 import Loading from "../Loading";
 import Error from "../Error";
+import NoData from "../NoData";
 
 export default function CardList() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
@@ -32,6 +33,7 @@ export default function CardList() {
 
   if (status === "pending") return <Loading />;
   if (status === "error") return <Error />;
+  if (data?.pages[0].items.length === 0) return <NoData />;
 
   return (
     <>
