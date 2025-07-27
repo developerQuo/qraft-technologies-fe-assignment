@@ -1,8 +1,8 @@
-import { Content } from "@/types/content";
+import { Data } from "@/types/disclosure";
 import { getLocalDateTime } from "@/utils/date";
 
-type InputProps = Pick<Content, "dataDate" | "korName" | "exchange"> &
-  Pick<Content["details"], "secCode" | "secName">;
+type InputProps = Pick<Data, "dataDate" | "korName" | "exchange"> &
+  Pick<Data["details"], "secCode" | "secName">;
 
 export default function RepresentativeMetadata({
   dataDate,

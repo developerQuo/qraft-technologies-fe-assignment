@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Content } from "@/types/content";
+import { ShenZhenData, HongKongData } from "@/types/disclosure";
 import { Exchange } from "@/enums/exchange";
 import { queryJsonFile } from "@/utils/query-disclosure-json";
 import { paginateArray } from "@/utils/pagination";
 
-// TODO: 경로 이름 disclosure로 변경
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
@@ -15,8 +14,8 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get("page") || "0");
 
     // query json file
-    let shenzhenData: Content[] = [];
-    let hongkongData: Content[] = [];
+    let shenzhenData: ShenZhenData[] = [];
+    let hongkongData: HongKongData[] = [];
 
     if (exchange === Exchange.SHENZHEN || exchange === Exchange.ALL) {
       shenzhenData = await queryJsonFile(Exchange.SHENZHEN);

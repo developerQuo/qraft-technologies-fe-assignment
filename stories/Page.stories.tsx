@@ -13,7 +13,7 @@ import {
   hongkongMock,
   searchShenzhenMock,
   shenzhenMock,
-} from "./__mocks__/contents";
+} from "./__mocks__/disclosure";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFilterStore } from "@/stores/filter-store";
 import { Exchange } from "@/enums/exchange";
@@ -28,7 +28,7 @@ const meta = {
     layout: "fullscreen",
     msw: {
       handlers: [
-        http.get("/api/contents", ({ request }) => {
+        http.get("/api/disclosure", ({ request }) => {
           const url = new URL(request.url);
           const exchange = url.searchParams.get("exchange");
           const startDate = url.searchParams.get("startDate");
@@ -70,13 +70,6 @@ const meta = {
       ],
     },
   },
-  decorators: [
-    (Story) => (
-      <QueryClientProvider client={queryClient}>
-        <Story />
-      </QueryClientProvider>
-    ),
-  ],
   beforeEach: () => {
     useFilterStore.setState({
       exchange: Exchange.ALL,
@@ -121,25 +114,25 @@ export const TestFilterHongkongData: Story = {
       });
     });
 
-    await step("렌더링 콘텐츠 확인", async () => {
-      const contents = canvas.getByRole("list");
+    await step("렌더링 확인", async () => {
+      const cardList = canvas.getByRole("list");
 
       await waitFor(() => {
-        expect(contents.children).toHaveLength(3);
+        expect(cardList.children).toHaveLength(3);
       });
 
       const firstName = await within(
-        contents.children[0] as HTMLElement
+        cardList.children[0] as HTMLElement
       ).findByTestId("name");
       expect(firstName).toHaveTextContent("짱구식품");
 
       const secondName = await within(
-        contents.children[1] as HTMLElement
+        cardList.children[1] as HTMLElement
       ).findByTestId("name");
       expect(secondName).toHaveTextContent("YADONG GROUP");
 
       const thirdName = await within(
-        contents.children[2] as HTMLElement
+        cardList.children[2] as HTMLElement
       ).findByTestId("name");
       expect(thirdName).toHaveTextContent("HAITONG UT");
     });
@@ -156,11 +149,11 @@ export const TestSearchKeyword: Story = {
     });
 
     await step("검색 결과 확인", async () => {
-      const contents = await canvas.findByRole("list");
+      const cardList = await canvas.findByRole("list");
 
-      expect(contents.children).toHaveLength(1);
+      expect(cardList.children).toHaveLength(1);
       const name = await within(
-        contents.children[0] as HTMLElement
+        cardList.children[0] as HTMLElement
       ).findByTestId("name");
       expect(name).toHaveTextContent("톈진모터다이스");
     });
@@ -171,17 +164,17 @@ export const TestInfiniteScroll: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const contents = canvas.getByRole("list");
+    const cardList = canvas.getByRole("list");
     await waitFor(() => {
-      expect(contents.children).toHaveLength(10 + 1); // loading 포함
+      expect(cardList.children).toHaveLength(10 + 1); // loading 포함
     });
 
-    const lastChild = contents.children[contents.children.length - 1];
+    const lastChild = cardList.children[cardList.children.length - 1];
 
     lastChild.scrollIntoView({ behavior: "smooth" });
 
     await waitFor(() => {
-      expect(contents.children).toHaveLength(20 + 1); // loading 포함
+      expect(cardList.children).toHaveLength(20 + 1); // loading 포함
     });
   },
 };

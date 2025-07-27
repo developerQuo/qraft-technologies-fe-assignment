@@ -1,11 +1,11 @@
 import useQueryCategory from "@/app/hooks/useQueryCategory";
 import { Exchange } from "@/enums/exchange";
-import { Content } from "@/types/content";
+import { Data } from "@/types/disclosure";
 import clsx from "clsx";
 
-type InputProps = Pick<Content["analysisDetails"], "topicKor"> &
-  Pick<Content["details"], "categoryId"> &
-  Pick<Content, "exchange">;
+type InputProps = Pick<Data["analysisDetails"], "topicKor"> &
+  Pick<Data["details"], "categoryId"> &
+  Pick<Data, "exchange">;
 
 export default function AdditionalMetadata({
   topicKor,

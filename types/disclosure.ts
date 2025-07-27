@@ -1,6 +1,6 @@
 import { Exchange } from "@/enums/exchange";
 
-export type ShenZhenContent = {
+export type ShenZhenData = {
   id: string;
   dataDate: string;
   korName: string;
@@ -17,7 +17,7 @@ export type ShenZhenContent = {
   exchange: Exchange.SHENZHEN;
 };
 
-export type HongKongContent = {
+export type HongKongData = {
   id: string;
   dataDate: string;
   korName: string;
@@ -35,10 +35,10 @@ export type HongKongContent = {
   exchange: Exchange.HONGKONG;
 };
 
-export type Content = ShenZhenContent | HongKongContent;
+export type Data = ShenZhenData | HongKongData;
 
-export type TQueryContents = {
-  items: Content[];
+export type TQueryData = {
+  items: Data[];
   page: {
     next: number;
     page: number;

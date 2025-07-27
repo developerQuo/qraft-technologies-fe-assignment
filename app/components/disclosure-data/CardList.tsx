@@ -1,13 +1,13 @@
 "use client";
 
-import { TQueryContents } from "@/types/content";
+import { TQueryData } from "@/types/disclosure";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Card from "./Card";
 import { useFilterStore } from "@/stores/filter-store";
 import { useEffect, useMemo, useRef } from "react";
 import clsx from "clsx";
 
-export default function ContentList() {
+export default function CardList() {
   const { exchange, keyword, startDate, endDate } = useFilterStore();
   const fetchUrl = useMemo(() => {
     const searchParams = new URLSearchParams();
@@ -17,12 +17,12 @@ export default function ContentList() {
     if (startDate) searchParams.set("startDate", startDate);
     if (endDate) searchParams.set("endDate", endDate);
 
-    return `/api/contents?${searchParams.toString()}`;
+    return `/api/disclosure?${searchParams.toString()}`;
   }, [exchange, keyword, startDate, endDate]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<TQueryContents>({
-      queryKey: ["contents", fetchUrl],
+    useInfiniteQuery<TQueryData>({
+      queryKey: ["disclosure", fetchUrl],
       queryFn: ({ pageParam }) =>
         fetch(fetchUrl + `&page=${pageParam}`).then((res) => res.json()),
       getNextPageParam: (lastPage) => {
@@ -61,7 +61,7 @@ export default function ContentList() {
         )}
       >
         {data?.pages.map(({ items }) =>
-          items.map((content) => <Card key={content.id} {...content} />)
+          items.map((item) => <Card key={item.id} {...item} />)
         )}
         {hasNextPage && (
           <div

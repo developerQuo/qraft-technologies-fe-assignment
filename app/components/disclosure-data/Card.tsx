@@ -2,9 +2,9 @@ import clsx from "clsx";
 
 import RepresentativeMetadata from "./RepresentativeMetadata";
 import AdditionalMetadata from "./AdditionalMetadata";
-import { Content } from "@/types/content";
+import { Data } from "@/types/disclosure";
 
-type InputProps = Content;
+type InputProps = Data;
 
 export default function Card({
   dataDate,

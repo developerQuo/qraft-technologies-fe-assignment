@@ -1,4 +1,4 @@
-import Card from "@/app/components/content/Card";
+import Card from "@/app/components/disclosure-data/Card";
 
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { cardMock } from "./__mocks__/card";
