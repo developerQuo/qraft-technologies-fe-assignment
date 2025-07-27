@@ -1,8 +1,9 @@
-import { Content } from "@/types/content";
-import { useQuery } from "@tanstack/react-query";
+import { Content, TQueryContents } from "@/types/content";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import Card from "./Card";
 import { useFilterStore } from "@/stores/filter-store";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import clsx from "clsx";
 
 export default function ContentList() {
   const { exchange, keyword, startDate, endDate } = useFilterStore();
@@ -17,13 +18,57 @@ export default function ContentList() {
     return `/api/contents?${searchParams.toString()}`;
   }, [exchange, keyword, startDate, endDate]);
 
-  const { data } = useQuery<Content[]>({
-    queryKey: ["contents", fetchUrl],
-    queryFn: () => fetch(fetchUrl).then((res) => res.json()),
-    staleTime: 1000 * 5,
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery<TQueryContents>({
+      queryKey: ["contents", fetchUrl],
+      queryFn: ({ pageParam }) =>
+        fetch(fetchUrl + `&page=${pageParam}`).then((res) => res.json()),
+      getNextPageParam: (lastPage) => {
+        console.log("lastPage", lastPage);
+        return lastPage.page.next !== -1 ? lastPage.page.next : undefined;
+      },
+      initialPageParam: 0,
+      staleTime: 1000 * 5,
+    });
 
-  return data?.length
-    ? data.map((content) => <Card key={content.id} {...content} />)
-    : null;
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!observerRef.current || !hasNextPage) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    });
+
+    observer.observe(observerRef.current);
+
+    return () => {
+      if (observerRef.current) observer.unobserve(observerRef.current);
+    };
+  }, [fetchNextPage, hasNextPage]);
+
+  console.log("contentList", data);
+  return (
+    <>
+      <div
+        role="list"
+        className={clsx(
+          "mt-2.5 px-3.5 py-2.5 overflow-y-auto bg-white",
+          "flex flex-col gap-2.5"
+        )}
+      >
+        {data?.pages.map(({ items }) =>
+          items.map((content) => <Card key={content.id} {...content} />)
+        )}
+      </div>
+      <div
+        ref={observerRef}
+        className="py-4 text-center text-sm text-text-secondary"
+      >
+        {isFetchingNextPage && "로딩 중..."}
+      </div>
+    </>
+  );
 }

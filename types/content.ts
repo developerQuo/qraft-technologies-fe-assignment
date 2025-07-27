@@ -16,3 +16,15 @@ export type Content = {
   };
   exchange: Exchange.SHENZHEN | Exchange.HONGKONG;
 };
+
+export type TQueryContents = {
+  items: Content[];
+  page: {
+    next: number;
+    page: number;
+    perPage: number;
+    prev: number;
+    total: number;
+    totalPage: number;
+  };
+};

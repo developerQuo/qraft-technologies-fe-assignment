@@ -34,25 +34,38 @@ const meta = {
           const startDate = url.searchParams.get("startDate");
           const endDate = url.searchParams.get("endDate");
           const keyword = url.searchParams.get("keyword");
-          console.log("msw params:", { exchange, startDate, endDate, keyword });
+          const page = Number(url.searchParams.get("page")) ?? 0;
 
+          // filter test
           if (
             exchange === "hongkong" &&
             startDate === "2024-04-22" &&
             endDate === "2024-04-22"
           ) {
-            return HttpResponse.json(filterHongkongMock);
+            return HttpResponse.json({
+              items: filterHongkongMock,
+              page: { next: -1 },
+            });
           }
 
+          // search test
           if (keyword === "티안치 몰드") {
-            return HttpResponse.json(searchShenzhenMock);
+            return HttpResponse.json({
+              items: searchShenzhenMock,
+              page: { next: -1 },
+            });
           }
 
-          return HttpResponse.json(
+          const data =
             exchange === "hongkong"
               ? hongkongMock
-              : [...shenzhenMock, ...hongkongMock]
-          );
+              : [...shenzhenMock, ...hongkongMock];
+          const pageData = data.slice(page * 10, (page + 1) * 10);
+
+          return HttpResponse.json({
+            items: pageData,
+            page: { next: page > data.length / 10 - 1 ? -1 : page + 1 },
+          });
         }),
       ],
     },
@@ -71,6 +84,7 @@ const meta = {
       startDate: ONE_YEAR_AGO,
       endDate: TODAY,
     });
+    queryClient.clear();
   },
 } satisfies Meta<typeof Home>;
 
@@ -142,7 +156,7 @@ export const TestSearchKeyword: Story = {
     });
 
     await step("검색 결과 확인", async () => {
-      const contents = canvas.getByRole("list");
+      const contents = await canvas.findByRole("list");
 
       expect(contents.children).toHaveLength(1);
       const name = await within(
@@ -153,18 +167,21 @@ export const TestSearchKeyword: Story = {
   },
 };
 
-// export const TestInfiniteScroll: Story = {
-//   play: async ({ canvasElement }) => {
-//     const canvas = within(canvasElement);
+export const TestInfiniteScroll: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-//     const contents = canvas.getByRole("list");
-//     expect(contents.children).toHaveLength(10);
+    const contents = canvas.getByRole("list");
+    await waitFor(() => {
+      expect(contents.children).toHaveLength(10);
+    });
 
-//     const lastChild = contents.children[contents.children.length - 1];
-//     await fireEvent.scroll(lastChild, {
-//       target: { scrollTop: lastChild.scrollHeight },
-//     });
+    const lastChild = contents.children[contents.children.length - 1];
 
-//     expect(contents.children).toHaveLength(20);
-//   },
-// };
+    lastChild.scrollIntoView({ behavior: "smooth" });
+
+    await waitFor(() => {
+      expect(contents.children).toHaveLength(20);
+    });
+  },
+};
