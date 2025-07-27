@@ -1,12 +1,34 @@
 import Home from "@/app/page";
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { expect, fireEvent, userEvent, within } from "storybook/internal/test";
+import { http, HttpResponse } from "msw";
+import { filterHongkongMock, hongkongMock } from "./__mocks__/contents";
 
 const meta = {
   title: "Home",
   component: Home,
   parameters: {
     layout: "fullscreen",
+    msw: {
+      handlers: [
+        http.get("/api/contents", ({ request }) => {
+          const url = new URL(request.url);
+          const exchange = url.searchParams.get("exchange");
+          const startDate = url.searchParams.get("startDate");
+          const endDate = url.searchParams.get("endDate");
+
+          if (
+            exchange === "홍콩" &&
+            startDate === "2024-04-22" &&
+            endDate === "2024-04-22"
+          ) {
+            return HttpResponse.json(filterHongkongMock);
+          }
+
+          return HttpResponse.json(hongkongMock);
+        }),
+      ],
+    },
   },
 } satisfies Meta<typeof Home>;
 
