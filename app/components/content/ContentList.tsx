@@ -1,5 +1,7 @@
-import { Content, TQueryContents } from "@/types/content";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+"use client";
+
+import { TQueryContents } from "@/types/content";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import Card from "./Card";
 import { useFilterStore } from "@/stores/filter-store";
 import { useEffect, useMemo, useRef } from "react";
@@ -18,13 +20,12 @@ export default function ContentList() {
     return `/api/contents?${searchParams.toString()}`;
   }, [exchange, keyword, startDate, endDate]);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery<TQueryContents>({
       queryKey: ["contents", fetchUrl],
       queryFn: ({ pageParam }) =>
         fetch(fetchUrl + `&page=${pageParam}`).then((res) => res.json()),
       getNextPageParam: (lastPage) => {
-        console.log("lastPage", lastPage);
         return lastPage.page.next !== -1 ? lastPage.page.next : undefined;
       },
       initialPageParam: 0,
@@ -34,7 +35,8 @@ export default function ContentList() {
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!observerRef.current || !hasNextPage) return;
+    const currentObserver = observerRef.current;
+    if (!currentObserver || !hasNextPage) return;
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && hasNextPage) {
@@ -42,14 +44,13 @@ export default function ContentList() {
       }
     });
 
-    observer.observe(observerRef.current);
+    observer.observe(currentObserver);
 
     return () => {
-      if (observerRef.current) observer.unobserve(observerRef.current);
+      if (currentObserver) observer.unobserve(currentObserver);
     };
   }, [fetchNextPage, hasNextPage]);
 
-  console.log("contentList", data);
   return (
     <>
       <div
@@ -62,12 +63,14 @@ export default function ContentList() {
         {data?.pages.map(({ items }) =>
           items.map((content) => <Card key={content.id} {...content} />)
         )}
-      </div>
-      <div
-        ref={observerRef}
-        className="py-4 text-center text-sm text-text-secondary"
-      >
-        {isFetchingNextPage && "로딩 중..."}
+        {hasNextPage && (
+          <div
+            ref={observerRef}
+            className="py-4 text-center text-sm text-text-secondary"
+          >
+            {isFetchingNextPage && "로딩 중..."}
+          </div>
+        )}
       </div>
     </>
   );

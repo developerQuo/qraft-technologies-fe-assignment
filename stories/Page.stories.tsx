@@ -173,7 +173,7 @@ export const TestInfiniteScroll: Story = {
 
     const contents = canvas.getByRole("list");
     await waitFor(() => {
-      expect(contents.children).toHaveLength(10);
+      expect(contents.children).toHaveLength(10 + 1); // loading 포함
     });
 
     const lastChild = contents.children[contents.children.length - 1];
@@ -181,7 +181,7 @@ export const TestInfiniteScroll: Story = {
     lastChild.scrollIntoView({ behavior: "smooth" });
 
     await waitFor(() => {
-      expect(contents.children).toHaveLength(20);
+      expect(contents.children).toHaveLength(20 + 1); // loading 포함
     });
   },
 };

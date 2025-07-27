@@ -28,3 +28,11 @@ export type TQueryContents = {
     totalPage: number;
   };
 };
+
+export type TQueryParams = {
+  exchange: Exchange;
+  startDate: string;
+  endDate: string;
+  keyword: string;
+  page: number;
+};
