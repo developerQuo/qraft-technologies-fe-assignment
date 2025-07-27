@@ -20,6 +20,8 @@ export default function DateInput({ value, onChange, id, max }: InputProps) {
     <input
       type="date"
       id={id}
+      aria-label={id}
+      role="textbox"
       value={value}
       onChange={onDateChange}
       className={clsx(

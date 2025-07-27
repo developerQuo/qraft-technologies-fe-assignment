@@ -6,7 +6,7 @@ type InputProps = {
 
 export default function LabelWrapper({ label, htmlFor, children }: InputProps) {
   return (
-    <div className="flex gap-3 py-1 px-3 items-center ">
+    <div className="flex gap-3 py-1 px-3 items-center">
       <label
         htmlFor={htmlFor}
         className="text-text-primary font-semibold text-[15px]"
