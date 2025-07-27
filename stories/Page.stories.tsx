@@ -18,6 +18,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFilterStore } from "@/stores/filter-store";
 import { Exchange } from "@/enums/exchange";
 import { ONE_YEAR_AGO, TODAY } from "@/utils/date";
+import Filter from "@/app/components/Filter";
+import Loading from "@/app/components/Loading";
+import Error from "@/app/components/Error";
 
 const queryClient = new QueryClient();
 
@@ -84,6 +87,24 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const LoadingView: Story = {
+  render: () => (
+    <div className={"h-screen w-[772px] mx-auto flex flex-col"}>
+      <Filter />
+      <Loading />
+    </div>
+  ),
+};
+
+export const ErrorView: Story = {
+  render: () => (
+    <div className={"h-screen w-[772px] mx-auto flex flex-col"}>
+      <Filter />
+      <Error />
+    </div>
+  ),
+};
+
 export const TestFilterHongkongData: Story = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -115,7 +136,7 @@ export const TestFilterHongkongData: Story = {
     });
 
     await step("렌더링 확인", async () => {
-      const cardList = canvas.getByRole("list");
+      const cardList = await canvas.findByRole("list");
 
       await waitFor(() => {
         expect(cardList.children).toHaveLength(3);
@@ -164,7 +185,7 @@ export const TestInfiniteScroll: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const cardList = canvas.getByRole("list");
+    const cardList = await canvas.findByRole("list");
     await waitFor(() => {
       expect(cardList.children).toHaveLength(10 + 1); // loading 포함
     });
