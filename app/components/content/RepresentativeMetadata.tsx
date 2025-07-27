@@ -28,7 +28,7 @@ export default function RepresentativeMetadata({
         <div className="mt-5 text-text-primary text-[13px]">
           <p className="font-semibold">{secCode}</p>
           <p>
-            {korName} ({secName})
+            <span data-testid="name">{korName}</span> ({secName})
           </p>
         </div>
       </div>
