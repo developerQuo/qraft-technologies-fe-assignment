@@ -14,13 +14,13 @@ import {
   searchShenzhenMock,
   shenzhenMock,
 } from "./__mocks__/disclosure";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { useFilterStore } from "@/stores/filter-store";
-import { Exchange } from "@/enums/exchange";
+import { Exchange } from "@/constants/enums";
 import { ONE_YEAR_AGO, TODAY } from "@/utils/date";
-import Filter from "@/app/components/Filter";
-import Loading from "@/app/components/Loading";
-import Error from "@/app/components/Error";
+import Filter from "@/components/filter/Filter";
+import Loading from "@/components/Loading";
+import Error from "@/components/Error";
 
 const queryClient = new QueryClient();
 

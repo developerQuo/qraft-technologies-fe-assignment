@@ -1,8 +1,9 @@
 "use client";
 
 import clsx from "clsx";
-import LabelWrapper from "./LabelWrapper";
+
 import { useFilterStore } from "@/stores/filter-store";
+import LabelWrapper from "../common/LabelWrapper";
 
 export default function KeywordInput() {
   const keyword = useFilterStore((state) => state.keyword);

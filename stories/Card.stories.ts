@@ -1,8 +1,8 @@
-import Card from "@/app/components/disclosure-data/Card";
+import Card from "@/components/disclosure-data/Card";
 
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { cardMock } from "./__mocks__/card";
-import { Exchange } from "@/enums/exchange";
+import { Exchange } from "@/constants/enums";
 
 const meta = {
   title: "Card",

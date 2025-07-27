@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Exchange } from "@/enums/exchange";
-import { queryJsonFile } from "@/utils/query-category-json";
+import { Exchange } from "@/constants/enums";
+import { queryJsonFile } from "@/lib/query-category-json";
 import { Category } from "@/types/category";
 
 export async function GET(request: NextRequest) {

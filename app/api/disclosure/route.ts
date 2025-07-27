@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ShenZhenData, HongKongData } from "@/types/disclosure";
-import { Exchange } from "@/enums/exchange";
-import { queryJsonFile } from "@/utils/query-disclosure-json";
+import { Exchange } from "@/constants/enums";
+import { queryJsonFile } from "@/lib/query-disclosure-json";
 import { paginateArray } from "@/utils/pagination";
 
 export async function GET(request: NextRequest) {

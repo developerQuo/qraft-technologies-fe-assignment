@@ -1,5 +1,5 @@
-import Filter from "@/app/components/Filter";
-import { Exchange } from "@/enums/exchange";
+import Filter from "@/components/filter/Filter";
+import { Exchange } from "@/constants/enums";
 import { useFilterStore } from "@/stores/filter-store";
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { expect, userEvent, within } from "storybook/test";

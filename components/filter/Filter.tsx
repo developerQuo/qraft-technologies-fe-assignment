@@ -1,6 +1,6 @@
 import DateRange from "./date-range/DateRange";
 import KeywordInput from "./KeywordInput";
-import ExchangeSelector from "./selector/ExchangeSelector";
+import ExchangeSelector from "./ExchangeSelector";
 
 export default function Filter() {
   return (

@@ -1,10 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import LabelWrapper from "../LabelWrapper";
-import { exchangeOptions } from "./data";
+import LabelWrapper from "../common/LabelWrapper";
+import { exchangeOptions } from "../../constants/options";
 import { useFilterStore } from "@/stores/filter-store";
-import { Exchange } from "@/enums/exchange";
+import { Exchange } from "@/constants/enums";
 
 export default function ExchangeSelector() {
   const exchange = useFilterStore((state) => state.exchange);

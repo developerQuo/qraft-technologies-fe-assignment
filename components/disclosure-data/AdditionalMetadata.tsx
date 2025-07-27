@@ -1,5 +1,5 @@
-import useQueryCategory from "@/app/hooks/useQueryCategory";
-import { Exchange } from "@/enums/exchange";
+import useQueryCategory from "@/hooks/useQueryCategory";
+import { Exchange } from "@/constants/enums";
 import { Data } from "@/types/disclosure";
 import clsx from "clsx";
 

@@ -3,7 +3,7 @@
 import Card from "./Card";
 import { useEffect, useRef } from "react";
 import clsx from "clsx";
-import useQueryDisclosureData from "@/app/hooks/useQueryDisclosureData";
+import useQueryDisclosureData from "@/hooks/useQueryDisclosureData";
 import Loading from "../Loading";
 import Error from "../Error";
 

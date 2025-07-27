@@ -1,4 +1,4 @@
-import { Exchange } from "@/enums/exchange";
+import { Exchange } from "@/constants/enums";
 
 export type ShenZhenData = {
   id: string;

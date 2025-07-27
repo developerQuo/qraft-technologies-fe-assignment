@@ -1,4 +1,4 @@
-import { Exchange } from "@/enums/exchange";
+import { Exchange } from "@/constants/enums";
 import { StateCreator } from "zustand";
 
 export interface ExchangeSlice {

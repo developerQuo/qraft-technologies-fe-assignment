@@ -1,4 +1,4 @@
-import { Exchange } from "@/enums/exchange";
+import { Exchange } from "@/constants/enums";
 import { Category } from "@/types/category";
 import { useQuery } from "@tanstack/react-query";
 

@@ -1,4 +1,4 @@
-import { Exchange } from "@/enums/exchange";
+import { Exchange } from "@/constants/enums";
 
 const toFormat = (date: Date): string => {
   const year = date.getFullYear();

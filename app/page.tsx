@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import CardList from "./components/disclosure-data/CardList";
-import Filter from "./components/Filter";
+import CardList from "../components/disclosure-data/CardList";
+import Filter from "../components/filter/Filter";
 
 export default function Home() {
   return (
