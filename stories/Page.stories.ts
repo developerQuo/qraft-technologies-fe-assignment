@@ -1,5 +1,6 @@
 import Home from "@/app/page";
 import type { Meta, StoryObj } from "@storybook/nextjs";
+import { expect, fireEvent, userEvent, within } from "storybook/internal/test";
 
 const meta = {
   title: "Home",
@@ -12,4 +13,82 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const SelectExchange: Story = {};
+export const TestFilterHongkongData: Story = {
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("홍콩 거래소 선택", async () => {
+      const exchangeSelector = canvas.getByRole("combobox", { name: "거래소" });
+      await userEvent.click(exchangeSelector);
+      await userEvent.selectOptions(exchangeSelector, "홍콩");
+    });
+
+    await step("공시일 선택", async () => {
+      const startDateInput = canvas.getByRole("textbox", { name: "startDate" });
+      await userEvent.clear(startDateInput);
+      await userEvent.type(startDateInput, "2024-04-22");
+
+      const endDateInput = canvas.getByRole("textbox", { name: "endDate" });
+      await userEvent.clear(endDateInput);
+      await userEvent.type(endDateInput, "2024-04-22");
+    });
+
+    await step("렌더링 콘텐츠 확인", async () => {
+      const contents = canvas.getByRole("list");
+
+      expect(contents.children).toHaveLength(3);
+
+      const firstName = await within(
+        contents.children[0] as HTMLElement
+      ).findByTestId("name");
+      expect(firstName).toHaveTextContent("짱구식품");
+
+      const secondName = await within(
+        contents.children[1] as HTMLElement
+      ).findByTestId("name");
+      expect(secondName).toHaveTextContent("YADONG GROUP");
+
+      const thirdName = await within(
+        contents.children[2] as HTMLElement
+      ).findByTestId("name");
+      expect(thirdName).toHaveTextContent("HAITONG UT");
+    });
+  },
+};
+
+export const TestSearchKeyword: Story = {
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("키워드 검색", async () => {
+      const keywordInput = canvas.getByRole("textbox", { name: "키워드" });
+      await userEvent.type(keywordInput, "티안치 몰드");
+    });
+
+    await step("검색 결과 확인", async () => {
+      const contents = canvas.getByRole("list");
+
+      expect(contents.children).toHaveLength(1);
+      const firstName = await within(
+        contents.children[0] as HTMLElement
+      ).findByTestId("name");
+      expect(firstName).toHaveTextContent("톈진모터다이스");
+    });
+  },
+};
+
+export const TestInfiniteScroll: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const contents = canvas.getByRole("list");
+    expect(contents.children).toHaveLength(10);
+
+    const lastChild = contents.children[contents.children.length - 1];
+    await fireEvent.scroll(lastChild, {
+      target: { scrollTop: lastChild.scrollHeight },
+    });
+
+    expect(contents.children).toHaveLength(20);
+  },
+};

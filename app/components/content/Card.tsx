@@ -7,7 +7,6 @@ import { Content } from "@/types/content";
 type InputProps = Content;
 
 export default function Card({
-  id,
   dataDate,
   korName,
   details,
