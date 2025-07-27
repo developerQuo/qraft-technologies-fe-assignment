@@ -27,10 +27,13 @@ body {
 
 @theme {
   --color-text-primary: #2f3b43;
+  --color-text-secondary: #68696b;
   --color-input: #5b6266;
   --color-border-primary: #9da6ad;
   --color-border-secondary: #ced9e1;
+  --color-meta-tag: #546a78;
 
+  --color-primary: #5091ff;
   --color-bg-primary: #f5f9ff;
 }
 
