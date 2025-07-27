@@ -1,6 +1,6 @@
 import { Exchange } from "@/enums/exchange";
 
-export type Content = {
+export type ShenZhenContent = {
   id: string;
   dataDate: string;
   korName: string;
@@ -14,8 +14,28 @@ export type Content = {
     summarizeTinyKor: string;
     summarizeLongKor: string;
   };
-  exchange: Exchange.SHENZHEN | Exchange.HONGKONG;
+  exchange: Exchange.SHENZHEN;
 };
+
+export type HongKongContent = {
+  id: string;
+  dataDate: string;
+  korName: string;
+  details: {
+    secName: string[];
+    secCode: string[];
+    categoryId: string;
+    fileLink: string;
+  };
+  analysisDetails: {
+    topicKor: string;
+    summarizeTinyKor: string;
+    summarizeLongKor: string;
+  };
+  exchange: Exchange.HONGKONG;
+};
+
+export type Content = ShenZhenContent | HongKongContent;
 
 export type TQueryContents = {
   items: Content[];

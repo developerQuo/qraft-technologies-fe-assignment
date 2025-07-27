@@ -28,7 +28,11 @@ export default function Card({
           secName={details.secName}
           exchange={exchange}
         />
-        <AdditionalMetadata />
+        <AdditionalMetadata
+          topicKor={analysisDetails.topicKor}
+          categoryId={details.categoryId}
+          exchange={exchange}
+        />
       </div>
       <div
         className={clsx(

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Content } from "@/types/content";
 import { Exchange } from "@/enums/exchange";
-import { queryJsonFile } from "@/utils/query-json";
+import { queryJsonFile } from "@/utils/query-disclosure-json";
 import { paginateArray } from "@/utils/pagination";
 
+// TODO: 경로 이름 disclosure로 변경
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
@@ -23,7 +24,10 @@ export async function GET(request: NextRequest) {
     if (exchange === Exchange.HONGKONG || exchange === Exchange.ALL) {
       hongkongData = await queryJsonFile(Exchange.HONGKONG);
     }
-    const data = [...shenzhenData, ...hongkongData];
+    const data = [
+      ...shenzhenData.map((item) => ({ ...item, exchange: Exchange.SHENZHEN })),
+      ...hongkongData.map((item) => ({ ...item, exchange: Exchange.HONGKONG })),
+    ];
 
     // filtering
     const filteredData = data.filter((item) => {

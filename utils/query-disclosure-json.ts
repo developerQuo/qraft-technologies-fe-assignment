@@ -15,7 +15,7 @@ export const queryJsonFile = async (
   if (!response.length) {
     return NextResponse.json({
       status: 404,
-      error: `${KOR_NAME} 데이터를 찾을 수 없습니다.`,
+      error: `${KOR_NAME} 공시 데이터를 찾을 수 없습니다.`,
     });
   }
 

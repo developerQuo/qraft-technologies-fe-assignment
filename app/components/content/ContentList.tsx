@@ -29,7 +29,7 @@ export default function ContentList() {
         return lastPage.page.next !== -1 ? lastPage.page.next : undefined;
       },
       initialPageParam: 0,
-      staleTime: 1000 * 5,
+      staleTime: 1000 * 60 * 5,
     });
 
   const observerRef = useRef<HTMLDivElement | null>(null);
